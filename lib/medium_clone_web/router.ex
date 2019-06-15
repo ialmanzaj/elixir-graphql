@@ -7,5 +7,11 @@ defmodule MediumCloneWeb.Router do
 
   scope "/api", MediumCloneWeb do
     pipe_through :api
+
+    forward("/graphql", Absinthe.Plug, schema: MediumCloneWeb.Schema)
+
+    if Mix.env() == :dev do
+      forward("/graphiql", Absinthe.Plug.Graphiql, schema: MediumCloneWeb.Schema)
+    end
   end
 end
